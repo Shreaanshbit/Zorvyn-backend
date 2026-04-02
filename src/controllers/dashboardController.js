@@ -39,4 +39,39 @@ const getSummary = async (req, res) => {
   }
 };
 
-module.exports = { getSummary };
+const User = require("../models/User");
+
+const getOverview = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    const totalRecords = await FinancialRecord.countDocuments();
+
+    const records = await FinancialRecord.find();
+
+    let totalIncome = 0;
+    let totalExpense = 0;
+
+    records.forEach((record) => {
+      if (record.type === "income") {
+        totalIncome += record.amount;
+      } else {
+        totalExpense += record.amount;
+      }
+    });
+
+    const netBalance = totalIncome - totalExpense;
+
+    res.json({
+      totalUsers,
+      totalRecords,
+      totalIncome,
+      totalExpense,
+      netBalance
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getSummary,getOverview };
