@@ -11,7 +11,7 @@ const allowRoles = require("../middlewares/roleMiddleware");
 const router = express.Router();
 
 router.post("/", protect, allowRoles("admin"), createRecord);
-router.get("/", protect, getRecords);
+router.get("/", protect, allowRoles("admin", "analyst", "viewer"), getRecords);
 router.patch("/:id", protect, allowRoles("admin"), updateRecord);
 router.delete("/:id", protect, allowRoles("admin"), deleteRecord);
 

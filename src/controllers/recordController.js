@@ -29,6 +29,10 @@ const getRecords = async (req, res) => {
 
     let filter = {};
 
+    if (req.user.role === "viewer") {
+      filter.createdBy = req.user._id;
+    }
+
     if (type) filter.type = type;
     if (category) filter.category = category;
 
