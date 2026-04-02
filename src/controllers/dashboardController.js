@@ -74,4 +74,41 @@ const getOverview = async (req, res) => {
   }
 };
 
-module.exports = { getSummary,getOverview };
+const getUsersOverview = async (req, res) => {
+  try {
+    const users = await User.find().select("name email");
+
+    const overview = [];
+
+    for (const user of users) {
+      const records = await FinancialRecord.find({ createdBy: user._id });
+
+      let totalIncome = 0;
+      let totalExpense = 0;
+
+      records.forEach((record) => {
+        if (record.type === "income") {
+          totalIncome += record.amount;
+        } else {
+          totalExpense += record.amount;
+        }
+      });
+
+      overview.push({
+        userId: user._id,
+        name: user.name,
+        email: user.email,
+        totalIncome,
+        totalExpense,
+        balance: totalIncome - totalExpense,
+        recordCount: records.length
+      });
+    }
+
+    res.json(overview);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getSummary, getOverview, getUsersOverview };
