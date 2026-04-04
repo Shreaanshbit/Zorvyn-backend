@@ -1,25 +1,66 @@
+const mongoose = require("mongoose");
 const FinancialRecord = require("../models/FinancialRecord");
 
 const createRecord = async (req, res) => {
   try {
     const { amount, type, category, date, notes } = req.body;
 
-    if (!amount || !type || !category || !date) {
-      return res.status(400).json({ message: "All fields required" });
+    if (amount === undefined || !type || !category || !date) {
+      return res.status(400).json({
+        success: false,
+        message: "Amount, type, category, and date are required"
+      });
+    }
+
+    if (typeof amount !== "number" || amount <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Amount must be a positive number"
+      });
+    }
+
+    if (!["income", "expense"].includes(type)) {
+      return res.status(400).json({
+        success: false,
+        message: "Type must be either income or expense"
+      });
+    }
+
+    if (typeof category !== "string" || !category.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Category is required"
+      });
+    }
+
+    const parsedDate = new Date(date);
+
+    if (isNaN(parsedDate.getTime())) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid date format"
+      });
     }
 
     const record = await FinancialRecord.create({
       amount,
       type,
-      category,
-      date,
+      category: category.trim(),
+      date: parsedDate,
       notes,
       createdBy: req.user._id
     });
 
-    res.status(201).json(record);
+    res.status(201).json({
+      success: true,
+      message: "Record created successfully",
+      record
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
@@ -33,13 +74,41 @@ const getRecords = async (req, res) => {
       filter.createdBy = req.user._id;
     }
 
-    if (type) filter.type = type;
-    if (category) filter.category = category;
+    if (type) {
+      if (!["income", "expense"].includes(type)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid type filter"
+        });
+      }
+      filter.type = type;
+    }
 
-    if (startDate && endDate) {
+    if (category) {
+      filter.category = category;
+    }
+
+    if (startDate || endDate) {
+      if (!startDate || !endDate) {
+        return res.status(400).json({
+          success: false,
+          message: "Both startDate and endDate are required"
+        });
+      }
+
+      const parsedStartDate = new Date(startDate);
+      const parsedEndDate = new Date(endDate);
+
+      if (isNaN(parsedStartDate.getTime()) || isNaN(parsedEndDate.getTime())) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid date filter"
+        });
+      }
+
       filter.date = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate)
+        $gte: parsedStartDate,
+        $lte: parsedEndDate
       };
     }
 
@@ -47,49 +116,133 @@ const getRecords = async (req, res) => {
       .populate("createdBy", "name email")
       .sort({ createdAt: -1 });
 
-    res.json(records);
+    res.json({
+      success: true,
+      count: records.length,
+      records
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
 const updateRecord = async (req, res) => {
   try {
-    const record = await FinancialRecord.findById(req.params.id);
-
-    if (!record) {
-      return res.status(404).json({ message: "Record not found" });
-    }
-
+    const { id } = req.params;
     const { amount, type, category, date, notes } = req.body;
 
-    if (amount) record.amount = amount;
-    if (type) record.type = type;
-    if (category) record.category = category;
-    if (date) record.date = date;
-    if (notes) record.notes = notes;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid record ID"
+      });
+    }
+
+    const record = await FinancialRecord.findById(id);
+
+    if (!record) {
+      return res.status(404).json({
+        success: false,
+        message: "Record not found"
+      });
+    }
+
+    if (amount !== undefined) {
+      if (typeof amount !== "number" || amount <= 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Amount must be a positive number"
+        });
+      }
+      record.amount = amount;
+    }
+
+    if (type !== undefined) {
+      if (!["income", "expense"].includes(type)) {
+        return res.status(400).json({
+          success: false,
+          message: "Type must be either income or expense"
+        });
+      }
+      record.type = type;
+    }
+
+    if (category !== undefined) {
+      if (typeof category !== "string" || !category.trim()) {
+        return res.status(400).json({
+          success: false,
+          message: "Category cannot be empty"
+        });
+      }
+      record.category = category.trim();
+    }
+
+    if (date !== undefined) {
+      const parsedDate = new Date(date);
+
+      if (isNaN(parsedDate.getTime())) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid date format"
+        });
+      }
+
+      record.date = parsedDate;
+    }
+
+    if (notes !== undefined) {
+      record.notes = notes;
+    }
 
     await record.save();
 
-    res.json(record);
+    res.json({
+      success: true,
+      message: "Record updated successfully",
+      record
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
 const deleteRecord = async (req, res) => {
   try {
-    const record = await FinancialRecord.findById(req.params.id);
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid record ID"
+      });
+    }
+
+    const record = await FinancialRecord.findById(id);
 
     if (!record) {
-      return res.status(404).json({ message: "Record not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Record not found"
+      });
     }
 
     await record.deleteOne();
 
-    res.json({ message: "Record deleted" });
+    res.json({
+      success: true,
+      message: "Record deleted successfully"
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
