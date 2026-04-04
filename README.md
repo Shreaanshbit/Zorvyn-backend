@@ -113,11 +113,17 @@ Inactive users are restricted from logging in and accessing protected APIs.
 - MongoDB Atlas is used as the cloud database for persistence.
 
 ---
+## Architecture
+- Role-based dashboards were separated instead of overloading a single endpoint  
+- Viewer-specific data filtering ensures data privacy  
+- Analyst role is strictly read-only for system integrity  
+- Admin controls user lifecycle and system-wide data  
+- Analytics logic implemented at backend level for scalability 
 
+---
 ## Trade-offs Considered
 - Centralized error middleware was not implemented to keep the codebase simpler and focused on assignment requirements.
 - Pagination and advanced filtering were not included to maintain clarity and avoid unnecessary complexity.
-- API documentation tools such as Swagger were not integrated, as the README provides sufficient endpoint explanation for this scope.
 
 ---
 
