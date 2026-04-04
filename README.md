@@ -23,8 +23,8 @@ The application implements role-based access control to ensure that users intera
 ## Setup Process
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/<your-username>/<your-repo>.git
-   cd <your-repo>
+   git clone https://github.com/Shreanshbit/Zorvyn-backend.git
+   cd Zorvyn-backend
    ```
 2. **Install dependencies:**
    ```bash
