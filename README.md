@@ -87,6 +87,7 @@ Inactive users are restricted from logging in and accessing protected APIs.
 ### User Management
 - `GET /api/users` — Retrieves all users. Accessible by Admin.
 - `PATCH /api/users/:id` — Updates user details such as role and status. Accessible by Admin.
+- `DELETE /api/users/:id`— Deletes a user, Accesible by Admin. 
 
 ---
 
