@@ -92,7 +92,7 @@ Inactive users are restricted from logging in and accessing protected APIs.
 
 ## Role-Based Access Control
 
-- **Viewer:** Can create records, view only personal financial data, and access the personal dashboard.
+- **Viewer:** Can create, update and delete records; view only personal financial data, and access the personal dashboard.
 - **Analyst:** Has read-only access to all records and can access global analytics dashboards.
 - **Admin:** Has full system access, including user management, record CRUD operations, dashboard access, and role promotion.
 
