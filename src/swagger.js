@@ -45,19 +45,11 @@ const swaggerDocument = {
               schema: {
                 type: "object",
                 properties: {
-                  name: {
-                    type: "string",
-                    example: "Shreyansh"
-                  },
-                  email: {
-                    type: "string",
-                    example: "viewer@zorvyn.com"
-                  },
-                  password: {
-                    type: "string",
-                    example: "Viewer@123"
-                  }
-                }
+                  name: { type: "string", example: "Shreyansh" },
+                  email: { type: "string", example: "viewer@zorvyn.com" },
+                  password: { type: "string", example: "Viewer@123" }
+                },
+                required: ["name", "email", "password"]
               }
             }
           }
@@ -80,15 +72,10 @@ const swaggerDocument = {
               schema: {
                 type: "object",
                 properties: {
-                  email: {
-                    type: "string",
-                    example: "admin@zorvyn.com"
-                  },
-                  password: {
-                    type: "string",
-                    example: "Admin@123"
-                  }
-                }
+                  email: { type: "string", example: "admin@zorvyn.com" },
+                  password: { type: "string", example: "Admin@123" }
+                },
+                required: ["email", "password"]
               }
             }
           }
@@ -103,41 +90,38 @@ const swaggerDocument = {
       get: {
         summary: "Get financial records",
         tags: ["Records"],
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "type",
             in: "query",
-            schema: { type: "string", enum: ["income", "expense"] },
-            description: "Filter by record type"
+            schema: { type: "string", enum: ["income", "expense"] }
           },
           {
             name: "category",
             in: "query",
-            schema: { type: "string" },
-            description: "Filter by category"
+            schema: { type: "string" }
           },
           {
             name: "startDate",
             in: "query",
-            schema: { type: "string", format: "date" },
-            description: "Start date for date range filter"
+            schema: { type: "string", format: "date" }
           },
           {
             name: "endDate",
             in: "query",
-            schema: { type: "string", format: "date" },
-            description: "End date for date range filter"
+            schema: { type: "string", format: "date" }
           }
         ],
         responses: {
-          200: { description: "Records fetched successfully" },
-          400: { description: "Invalid query parameters" },
-          401: { description: "Unauthorized" }
+          200: { description: "Records fetched successfully" }
         }
       },
+
       post: {
         summary: "Create financial record",
         tags: ["Records"],
+        security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
           content: {
@@ -157,16 +141,16 @@ const swaggerDocument = {
           }
         },
         responses: {
-          201: { description: "Record created successfully" },
-          400: { description: "Validation error" },
-          401: { description: "Unauthorized" }
+          201: { description: "Record created successfully" }
         }
       }
     },
+
     "/api/records/{id}": {
       patch: {
-        summary: "Update a financial record",
+        summary: "Update a financial record (owner or admin)",
         tags: ["Records"],
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "id",
@@ -194,15 +178,14 @@ const swaggerDocument = {
         },
         responses: {
           200: { description: "Record updated successfully" },
-          400: { description: "Validation error or invalid ID" },
-          401: { description: "Unauthorized" },
-          403: { description: "Not authorized to update this record" },
-          404: { description: "Record not found" }
+          403: { description: "Only owner or admin can update" }
         }
       },
+
       delete: {
-        summary: "Delete a financial record",
+        summary: "Delete a financial record (owner or admin)",
         tags: ["Records"],
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "id",
@@ -213,10 +196,7 @@ const swaggerDocument = {
         ],
         responses: {
           200: { description: "Record deleted successfully" },
-          400: { description: "Invalid record ID" },
-          401: { description: "Unauthorized" },
-          403: { description: "Not authorized to delete this record" },
-          404: { description: "Record not found" }
+          403: { description: "Only owner or admin can delete" }
         }
       }
     },
@@ -224,21 +204,33 @@ const swaggerDocument = {
     "/api/dashboard/summary": {
       get: {
         summary: "Get personal dashboard summary",
-        tags: ["Dashboard"]
+        tags: ["Dashboard"],
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: "Summary fetched successfully" }
+        }
       }
     },
 
     "/api/dashboard/overview": {
       get: {
         summary: "Get global overview dashboard",
-        tags: ["Dashboard"]
+        tags: ["Dashboard"],
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: "Overview fetched successfully" }
+        }
       }
     },
 
     "/api/dashboard/users-overview": {
       get: {
         summary: "Get all users overview analytics",
-        tags: ["Dashboard"]
+        tags: ["Dashboard"],
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: "Users overview fetched successfully" }
+        }
       }
     },
 
@@ -246,23 +238,29 @@ const swaggerDocument = {
       get: {
         summary: "Get single user detailed dashboard",
         tags: ["Dashboard"],
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "id",
             in: "path",
             required: true,
-            schema: {
-              type: "string"
-            }
+            schema: { type: "string" }
           }
-        ]
+        ],
+        responses: {
+          200: { description: "Single user dashboard fetched successfully" }
+        }
       }
     },
 
     "/api/users": {
       get: {
         summary: "Get all users",
-        tags: ["Users"]
+        tags: ["Users"],
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: "Users fetched successfully" }
+        }
       }
     },
 
@@ -270,14 +268,13 @@ const swaggerDocument = {
       patch: {
         summary: "Update user role or status",
         tags: ["Users"],
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "id",
             in: "path",
             required: true,
-            schema: {
-              type: "string"
-            }
+            schema: { type: "string" }
           }
         ],
         requestBody: {
@@ -287,14 +284,8 @@ const swaggerDocument = {
               schema: {
                 type: "object",
                 properties: {
-                  role: {
-                    type: "string",
-                    example: "analyst"
-                  },
-                  status: {
-                    type: "string",
-                    example: "active"
-                  }
+                  role: { type: "string", example: "analyst" },
+                  status: { type: "string", example: "active" }
                 }
               }
             }
@@ -305,14 +296,13 @@ const swaggerDocument = {
       delete: {
         summary: "Delete a user and their records",
         tags: ["Users"],
+        security: [{ bearerAuth: [] }],
         parameters: [
           {
             name: "id",
             in: "path",
             required: true,
-            schema: {
-              type: "string"
-            }
+            schema: { type: "string" }
           }
         ]
       }
