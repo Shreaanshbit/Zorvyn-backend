@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/User");
 const FinancialRecord = require("../models/FinancialRecord");
 
+/* provides the list of all registered users to the admin containing info like name , email , role and their active status  */
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find()
@@ -21,6 +22,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+/* used by admin to update the role and active status of a user  */
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -94,7 +96,7 @@ const updateUser = async (req, res) => {
   }
 };
 
-
+/* permanently deletes a user from the database , used by the admin role only */
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;

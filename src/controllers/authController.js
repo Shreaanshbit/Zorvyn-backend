@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
 
+// it creates a new user with 'viewer' role and takes name , email, and password as the required feilds; also checks that its not an existing user
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -40,6 +41,7 @@ const registerUser = async (req, res) => {
   }
 };
 
+// an existing user login , takes email and password as the required feilds also prevents inactive accounts from logging in 
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;

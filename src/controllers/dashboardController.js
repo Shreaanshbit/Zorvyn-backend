@@ -2,6 +2,8 @@ const FinancialRecord = require("../models/FinancialRecord");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 
+/*provides the basic dashboard with total income and expenses also includes category wise breakdown, 
+ recent transactions and insights on the user's spending trends, mainly for a viewer to check their own spendings */ 
 const getSummary = async (req, res) => {
   try {
     let match = {};
@@ -105,6 +107,7 @@ const getSummary = async (req, res) => {
   }
 };
 
+/* gives a global overview dashboard for the admin and analyst to check the total users registered and the total transactions being done on the application */
 const getOverview = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
@@ -208,6 +211,7 @@ const getOverview = async (req, res) => {
   }
 };
 
+/*returns an overview dashboard for admin and analyst to check per user spending and over all analytics for per user */
 const getUsersOverview = async (req, res) => {
   try {
     const users = await User.find().select("name email");
@@ -245,6 +249,7 @@ const getUsersOverview = async (req, res) => {
   }
 };
 
+/*return a dashboard for a specific user searched using userId and provide all their transaction data and analytics  */
 const getUserDashboardById = async (req, res) => {
   try {
     const { id } = req.params;

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const FinancialRecord = require("../models/FinancialRecord");
 
+/* creates a new transaction record of user (mainly for viewer)  */
 const createRecord = async (req, res) => {
   try {
     const { amount, type, category, date, notes } = req.body;
@@ -64,6 +65,7 @@ const createRecord = async (req, res) => {
   }
 };
 
+/*fetches the transaction history of the user  */
 const getRecords = async (req, res) => {
   try {
     const { type, category, startDate, endDate } = req.query;
@@ -129,6 +131,7 @@ const getRecords = async (req, res) => {
   }
 };
 
+/* can be used by the user to update the attributes of the transaction */
 const updateRecord = async (req, res) => {
   try {
     const { id } = req.params;
@@ -224,6 +227,7 @@ const updateRecord = async (req, res) => {
   }
 };
 
+/*can be used by the user to delete a specific record using the transaction's id */
 const deleteRecord = async (req, res) => {
   try {
     const { id } = req.params;
