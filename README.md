@@ -3,6 +3,9 @@
 **Live API:**  
 https://zorvyn-backend-08dd.onrender.com
 
+**Swagger API Documentation:**
+https://zorvyn-backend-08dd.onrender.com/api-docs/
+
 ---
 
 ## Project Overview
