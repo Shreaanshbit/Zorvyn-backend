@@ -88,7 +88,7 @@ const swaggerDocument = {
 
     "/api/records": {
       get: {
-        summary: "Get financial records",
+        summary: "Get financial records (self)",
         tags: ["Records"],
         security: [{ bearerAuth: [] }],
         parameters: [
@@ -119,7 +119,7 @@ const swaggerDocument = {
       },
 
       post: {
-        summary: "Create financial record",
+        summary: "Create financial record (viewer)",
         tags: ["Records"],
         security: [{ bearerAuth: [] }],
         requestBody: {
@@ -203,7 +203,7 @@ const swaggerDocument = {
 
     "/api/dashboard/summary": {
       get: {
-        summary: "Get personal dashboard summary",
+        summary: "Get personal dashboard summary (owner)",
         tags: ["Dashboard"],
         security: [{ bearerAuth: [] }],
         responses: {
@@ -214,7 +214,7 @@ const swaggerDocument = {
 
     "/api/dashboard/overview": {
       get: {
-        summary: "Get global overview dashboard",
+        summary: "Get global overview dashboard (analyst or admin)",
         tags: ["Dashboard"],
         security: [{ bearerAuth: [] }],
         responses: {
@@ -225,7 +225,7 @@ const swaggerDocument = {
 
     "/api/dashboard/user-overview": {
       get: {
-        summary: "Get all users overview analytics",
+        summary: "Get all users overview analytics (analyst or admin)",
         tags: ["Dashboard"],
         security: [{ bearerAuth: [] }],
         responses: {
@@ -236,7 +236,7 @@ const swaggerDocument = {
 
     "/api/dashboard/user/{id}": {
       get: {
-        summary: "Get single user detailed dashboard",
+        summary: "Get single user detailed dashboard (analyst or admin)",
         tags: ["Dashboard"],
         security: [{ bearerAuth: [] }],
         parameters: [
@@ -255,7 +255,7 @@ const swaggerDocument = {
 
     "/api/users": {
       get: {
-        summary: "Get all users",
+        summary: "Get all users (admin only)",
         tags: ["Users"],
         security: [{ bearerAuth: [] }],
         responses: {
@@ -266,7 +266,7 @@ const swaggerDocument = {
 
     "/api/users/{id}": {
       patch: {
-        summary: "Update user role or status",
+        summary: "Update user role or status (admin only)",
         tags: ["Users"],
         security: [{ bearerAuth: [] }],
         parameters: [
@@ -294,7 +294,7 @@ const swaggerDocument = {
       },
 
       delete: {
-        summary: "Delete a user and their records",
+        summary: "Delete a user and their records (admin only)",
         tags: ["Users"],
         security: [{ bearerAuth: [] }],
         parameters: [
