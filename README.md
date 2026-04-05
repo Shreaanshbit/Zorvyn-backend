@@ -117,6 +117,7 @@ Inactive users are restricted from logging in and accessing protected APIs.
 
 ---
 ## Trade-offs Considered
+- A user cannot explicitly create an 'Admin' or 'Analyst' accounts.
 - Centralized error middleware was not implemented to keep the codebase simpler and focused on assignment requirements.
 - Pagination and advanced filtering were not included to maintain clarity and avoid unnecessary complexity.
 
