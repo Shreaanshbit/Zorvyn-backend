@@ -58,7 +58,7 @@ Inactive users are restricted from logging in and accessing protected APIs.
 
 ## API Explanation
 ### Authentication
-- `POST /api/auth/register` — Registers a new user.
+- `POST /api/auth/register` — Registers a new user which is by default 'viewer' , user cannot self-register as 'admin' or 'analyst'.
 - `POST /api/auth/login` — Authenticates a user and returns a JWT token.
 
 ### Financial Records
@@ -89,24 +89,16 @@ Inactive users are restricted from logging in and accessing protected APIs.
 ---
 
 ## Role-Based Access Control
-- **Viewer**
-  - Can create financial records
-  - Can view only their own records
-  - Can access personal dashboard
-- **Analyst**
-  - Can view all records
-  - Can access global dashboards
-  - Read-only access
-- **Admin**
-  - Full system access
-  - Can manage users
-  - Can create, update, and delete records
-  - Can access all dashboards
+
+- **Viewer:** Can create records, view only personal financial data, and access the personal dashboard.
+- **Analyst:** Has read-only access to all records and can access global analytics dashboards.
+- **Admin:** Has full system access, including user management, record CRUD operations, dashboard access, and role promotion.
 
 ---
 
 ## Assumptions Made
 - All users must be authenticated using JWT before accessing protected routes.
+- Public registration always creates users with the 'viewer' role.
 - Viewer users are restricted to their own data and cannot access other users’ information.
 - Analyst users are strictly read-only and cannot modify any data.
 - Admin users have full control over users and financial records.
