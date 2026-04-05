@@ -223,7 +223,7 @@ const swaggerDocument = {
       }
     },
 
-    "/api/dashboard/users-overview": {
+    "/api/dashboard/user-overview": {
       get: {
         summary: "Get all users overview analytics",
         tags: ["Dashboard"],

@@ -1,7 +1,6 @@
 # Zorvyn - Role-Based Financial Dashboard Backend
 
-**Live API:**  
-https://zorvyn-backend-08dd.onrender.com
+**Live API:** https://zorvyn-backend-08dd.onrender.com
 
 **Swagger API Documentation:**
 https://zorvyn-backend-08dd.onrender.com/api-docs/
@@ -136,8 +135,11 @@ src/
 
 ---
 
-## Testing
+## Testing & Documentation
 The API can be tested using Postman.
 
 **Base URL:**
 https://zorvyn-backend-08dd.onrender.com
+
+you can also check on the documentation using :
+https://zorvyn-backend-08dd.onrender.com/api-docs/
