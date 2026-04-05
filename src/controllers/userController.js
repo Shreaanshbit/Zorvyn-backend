@@ -15,7 +15,7 @@ const getAllUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: "Internal Server Error"
     });
   }
 };
@@ -41,7 +41,6 @@ const updateUser = async (req, res) => {
       });
     }
 
-    // Optional safety: prevent admin from changing their own role
     if (req.user._id.toString() === id && role && role !== user.role) {
       return res.status(400).json({
         success: false,
@@ -89,7 +88,7 @@ const updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: "Internal Server Error"
     });
   }
 };

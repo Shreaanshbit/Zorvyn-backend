@@ -73,7 +73,7 @@ const registerUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: "Internal Server error"
     });
   }
 };
@@ -129,7 +129,7 @@ const loginUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: "Internal Server error"
     });
   }
 };

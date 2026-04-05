@@ -59,7 +59,7 @@ const createRecord = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: "Internal Server Error"
     });
   }
 };
@@ -124,7 +124,7 @@ const getRecords = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: "Internal Server Error"
     });
   }
 };
@@ -207,7 +207,7 @@ const updateRecord = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: "Internal Server Error"
     });
   }
 };
@@ -241,7 +241,7 @@ const deleteRecord = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: "Internal Server Error"
     });
   }
 };

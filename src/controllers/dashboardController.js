@@ -101,7 +101,7 @@ const getSummary = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -204,7 +204,7 @@ const getOverview = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -241,7 +241,7 @@ const getUsersOverview = async (req, res) => {
 
     res.json(overview);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -354,7 +354,7 @@ const getUserDashboardById = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
