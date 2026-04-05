@@ -150,6 +150,18 @@ const updateRecord = async (req, res) => {
       });
     }
 
+    const isOwner =
+      record.createdBy.toString() === req.user._id.toString();
+
+    const isAdmin = req.user.role === "admin";
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to update this record"
+      });
+    }
+
     if (amount !== undefined) {
       if (typeof amount !== "number" || amount <= 0) {
         return res.status(400).json({
@@ -232,6 +244,18 @@ const deleteRecord = async (req, res) => {
       });
     }
 
+    const isOwner =
+      record.createdBy.toString() === req.user._id.toString();
+
+    const isAdmin = req.user.role === "admin";
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to delete this record"
+      });
+    }
+
     await record.deleteOne();
 
     res.json({
@@ -245,7 +269,6 @@ const deleteRecord = async (req, res) => {
     });
   }
 };
-
 module.exports = {
   createRecord,
   getRecords,
