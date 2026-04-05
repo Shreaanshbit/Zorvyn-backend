@@ -68,8 +68,8 @@ Inactive users are restricted from logging in and accessing protected APIs.
 - `GET /api/records` — Retrieves records.
   - Viewer: only their own records
   - Analyst/Admin: all records
-- `PATCH /api/records/:id` — Updates a record. Accessible by Admin.
-- `DELETE /api/records/:id` — Deletes a record. Accessible by Admin.
+- `PATCH /api/records/:id` — Updates a record. Accessible by Admin and Viewer.
+- `DELETE /api/records/:id` — Deletes a record. Accessible by Admin and Viewer.
 
 ### Dashboard APIs
 - `GET /api/dashboard/summary` — Returns the personal dashboard for the logged-in user. Includes:
