@@ -103,8 +103,36 @@ const swaggerDocument = {
       get: {
         summary: "Get financial records",
         tags: ["Records"],
+        parameters: [
+          {
+            name: "type",
+            in: "query",
+            schema: { type: "string", enum: ["income", "expense"] },
+            description: "Filter by record type"
+          },
+          {
+            name: "category",
+            in: "query",
+            schema: { type: "string" },
+            description: "Filter by category"
+          },
+          {
+            name: "startDate",
+            in: "query",
+            schema: { type: "string", format: "date" },
+            description: "Start date for date range filter"
+          },
+          {
+            name: "endDate",
+            in: "query",
+            schema: { type: "string", format: "date" },
+            description: "End date for date range filter"
+          }
+        ],
         responses: {
-          200: { description: "Records fetched successfully" }
+          200: { description: "Records fetched successfully" },
+          400: { description: "Invalid query parameters" },
+          401: { description: "Unauthorized" }
         }
       },
       post: {
@@ -117,30 +145,78 @@ const swaggerDocument = {
               schema: {
                 type: "object",
                 properties: {
-                  amount: {
-                    type: "number",
-                    example: 5000
-                  },
-                  type: {
-                    type: "string",
-                    example: "expense"
-                  },
-                  category: {
-                    type: "string",
-                    example: "Food"
-                  },
-                  date: {
-                    type: "string",
-                    example: "2026-04-05"
-                  },
-                  notes: {
-                    type: "string",
-                    example: "Dinner expense"
-                  }
+                  amount: { type: "number", example: 5000 },
+                  type: { type: "string", example: "expense" },
+                  category: { type: "string", example: "Food" },
+                  date: { type: "string", example: "2026-04-05" },
+                  notes: { type: "string", example: "Dinner expense" }
+                },
+                required: ["amount", "type", "category", "date"]
+              }
+            }
+          }
+        },
+        responses: {
+          201: { description: "Record created successfully" },
+          400: { description: "Validation error" },
+          401: { description: "Unauthorized" }
+        }
+      }
+    },
+    "/api/records/{id}": {
+      patch: {
+        summary: "Update a financial record",
+        tags: ["Records"],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  amount: { type: "number", example: 1000 },
+                  type: { type: "string", example: "income" },
+                  category: { type: "string", example: "Salary" },
+                  date: { type: "string", example: "2026-04-05" },
+                  notes: { type: "string", example: "April salary" }
                 }
               }
             }
           }
+        },
+        responses: {
+          200: { description: "Record updated successfully" },
+          400: { description: "Validation error or invalid ID" },
+          401: { description: "Unauthorized" },
+          403: { description: "Not authorized to update this record" },
+          404: { description: "Record not found" }
+        }
+      },
+      delete: {
+        summary: "Delete a financial record",
+        tags: ["Records"],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" }
+          }
+        ],
+        responses: {
+          200: { description: "Record deleted successfully" },
+          400: { description: "Invalid record ID" },
+          401: { description: "Unauthorized" },
+          403: { description: "Not authorized to delete this record" },
+          404: { description: "Record not found" }
         }
       }
     },
