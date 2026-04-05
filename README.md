@@ -110,10 +110,10 @@ Inactive users are restricted from logging in and accessing protected APIs.
 - Viewer users are restricted to their own data and cannot access other users’ information.
 - Analyst users are strictly read-only and cannot modify any data.
 - Admin users have full control over users and financial records.
-- MongoDB Atlas is used as the cloud database for persistence.
 
 ---
 ## Architecture
+- the backend is built  around “decision-making dashboards”, not around raw database operations.
 - Role-based dashboards were separated instead of overloading a single endpoint  
 - Viewer-specific data filtering ensures data privacy  
 - Analyst role is strictly read-only for system integrity  
