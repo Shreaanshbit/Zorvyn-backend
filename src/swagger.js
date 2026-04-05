@@ -6,30 +6,38 @@ const swaggerDocument = {
     description:
       "A role-based financial dashboard backend built with Node.js, Express, MongoDB, and JWT authentication."
   },
+
   servers: [
     {
       url: "https://zorvyn-backend-08dd.onrender.com"
+    },
+    {
+      url: "http://localhost:5000"
     }
   ],
+
   components: {
-  securitySchemes: {
-    bearerAuth: {
-      type: "http",
-      scheme: "bearer",
-      bearerFormat: "JWT"
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT"
+      }
     }
-  }
-},
-security: [
-  {
-    bearerAuth: []
-  }
-],
+  },
+
+  security: [
+    {
+      bearerAuth: []
+    }
+  ],
+
   paths: {
     "/api/auth/register": {
       post: {
         summary: "Register a new user (viewer only)",
         tags: ["Authentication"],
+        security: [],
         requestBody: {
           required: true,
           content: {
@@ -64,6 +72,7 @@ security: [
       post: {
         summary: "Login and receive JWT token",
         tags: ["Authentication"],
+        security: [],
         requestBody: {
           required: true,
           content: {
@@ -93,7 +102,10 @@ security: [
     "/api/records": {
       get: {
         summary: "Get financial records",
-        tags: ["Records"]
+        tags: ["Records"],
+        responses: {
+          200: { description: "Records fetched successfully" }
+        }
       },
       post: {
         summary: "Create financial record",
@@ -212,6 +224,21 @@ security: [
             }
           }
         }
+      },
+
+      delete: {
+        summary: "Delete a user and their records",
+        tags: ["Users"],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string"
+            }
+          }
+        ]
       }
     }
   }
