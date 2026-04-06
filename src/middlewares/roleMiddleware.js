@@ -1,3 +1,4 @@
+// it allows only the specified roles to access the route
 const allowRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

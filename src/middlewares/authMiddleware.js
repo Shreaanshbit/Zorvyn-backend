@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+// checks the user using JWT and finds the user from the database, also  checks users' active status
 const protect = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
