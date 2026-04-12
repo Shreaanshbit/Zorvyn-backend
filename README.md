@@ -1,4 +1,4 @@
-# Zorvyn - Role-Based Financial Dashboard Backend
+# Role-Based Financial Dashboard Backend
 
 **Live API:** https://zorvyn-backend-08dd.onrender.com
 
@@ -8,7 +8,7 @@ https://zorvyn-backend-08dd.onrender.com/api-docs/
 ---
 
 ## Project Overview
-Zorvyn is a role-based financial dashboard backend built using Node.js, Express, and MongoDB. The system enables users to manage financial records (income and expenses) and provides analytical insights through structured dashboard endpoints.
+This is a  role-based financial dashboard backend built using Node.js, Express, and MongoDB. The system enables users to manage financial records (income and expenses) and provides analytical insights through structured dashboard endpoints.
 
 The application implements role-based access control to ensure that users interact with data according to their permissions.
 
